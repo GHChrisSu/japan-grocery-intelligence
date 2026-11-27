@@ -26,6 +26,7 @@ STORES = {
     "業務スーパー 新港": "gyomu-shinminato",
     "ヤオコー 稲毛海岸": "yaoko-inagekaigan",
     "イオン マリンピア": "aeon-marinpia",
+    "西友 西千葉店": "seiyu-nishichiba",
 }
 
 

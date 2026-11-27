@@ -54,3 +54,38 @@ def test_different_names_resolve_to_same_food_with_its_own_unit():
     assert comparable(replace(template, name="鶏もも唐揚げ弁当"), offer) is None
     chips = comparable(replace(template, name="玉ねぎ味 ポテトチップス"), offer)
     assert chips is not None and chips.category == "薯片"
+
+
+def test_verified_product_code_does_not_hide_similar_products():
+    offer = Offer(
+        "",
+        "门店传单",
+        "2026-11-27",
+        "2026-11-29",
+        None,
+        Decimal("289.44"),
+        None,
+        None,
+        "",
+    )
+    coded = Item(
+        "a",
+        "store-a",
+        "ミツカン 味ぽん",
+        "600mL",
+        "调味料",
+        "4902106541424",
+        "https://example.com/",
+        [offer],
+    )
+    smaller = replace(
+        coded, id="b", store_id="store-b", spec="500mL", jan="", jan_url=""
+    )
+    second_quote = replace(offer, taxed=Decimal("268.92"))
+    _, groups = compare_deals(
+        [(coded, offer), (smaller, second_quote)], {"store-a", "store-b"}
+    )
+    assert [entry.unit_price for entry in groups[("柑橘醋酱油", "每升", "")]] == [
+        Decimal("482.4"),
+        Decimal("537.84"),
+    ]

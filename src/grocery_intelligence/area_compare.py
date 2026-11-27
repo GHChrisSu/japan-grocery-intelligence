@@ -38,23 +38,60 @@ FAMILIES = (
     ("土豆", r"土豆|じゃがいも", r"チップス|薯片|薯条"),
     ("番茄", r"番茄|トマト", r"ジュース|番茄汁|果汁|ピザ|披萨|ケチャップ|番茄酱"),
     ("金针菇", r"金针菇|えのき", ""),
+    ("舞茸", r"舞茸|まいたけ|マイタケ", ""),
     ("蟹味菇", r"蟹味菇|ぶなしめじ", ""),
     ("香蕉", r"香蕉|バナナ", ""),
     ("蜜柑", r"蜜柑|みかん", r"ジュース|果汁|ゼリー|果冻"),
-    ("绢豆腐", r"绢豆腐|きぬ|絹豆腐", r"厚揚げ|炸|唐揚"),
+    ("绢豆腐", r"绢豆腐|絹美人|きぬ|絹豆腐", r"厚揚げ|炸|唐揚"),
     ("老豆腐", r"老豆腐|もめん|木綿", r"厚揚げ|炸|唐揚"),
     ("养殖鰤鱼切身", r"ぶり.*養殖.*切身|ぶり.*切身.*養殖|养殖鰤鱼切身", ""),
     ("盐渍银鲑切身", r"塩銀鮭|淡盐银鲑|盐麴淡盐银鲑", ""),
     ("银鲑切身", r"銀鮭.*切身|银鲑切身", ""),
     ("剑鱼切身", r"めかじき.*切身|剑鱼切片|剑鱼切身", ""),
-    ("生米", r"越光米|こしひかり|コシヒカリ|まっしぐら", r"切り餅|即食|米飯|ごはん"),
+    (
+        "生米",
+        r"越光米|こしひかり|コシヒカリ|まっしぐら|あきたこまち",
+        r"切り餅|即食|米飯|ごはん",
+    ),
+    ("猪后腿薄片", r"豚(?:肉)?モモ.*しゃぶ|猪后腿肉片", ""),
+    ("猪后腿肉块", r"豚(?:肉)?モモブロック|豚もも肉.*ブロック|猪后腿肉块", ""),
+    (
+        "味噌味袋装拉面",
+        r"(?:味噌|みそ).*(?:拉面|ラーメン)|ラーメン.*みそ",
+        r"カップ|杯面",
+    ),
+    ("盐味袋装拉面", r"塩らーめん|盐味拉面", r"カップ|杯面|豚骨"),
+    ("蛋黄酱", r"マヨネーズ|蛋黄酱", r"ハーフ|半脂|低脂|サンド|夹心"),
+    ("柑橘醋酱油", r"味ぽん|柑橘醋酱油", ""),
+    ("鲣鱼高汤酱油", r"追いがつおつゆ|つゆの素|濃縮高汤酱油|浓缩高汤酱油", ""),
+    (
+        "原味即饮绿茶",
+        r"緑茶|绿茶|伊右衛門|お[〜ー]いお茶",
+        r"濃い味|浓味|抹茶|ラテ|烏龍|乌龙|レモン|柠檬",
+    ),
+    (
+        "即饮拿铁",
+        r"カフェラッテ|カフェラテ|拿铁",
+        r"無糖|无糖|低糖|クリーミー|香浓|スティック|条装|粉末",
+    ),
+    (
+        "速溶咖啡",
+        r"インスタントコーヒー|速溶咖啡|ネスカフェ エクセラ|贅沢な珈琲店 スペシャルブレンド",
+        "",
+    ),
+    ("鲜马苏里拉奶酪", r"モッツァレラ|马苏里拉", r"冷凍|冷冻|ミックス|シュレッド"),
     (
         "酱油味袋装拉面",
         r"(?:酱油|しょうゆ|醤油).*(?:拉面|ラーメン)|ラーメン.*(?:しょうゆ|醤油)|札幌一番.*しょうゆ味",
         r"カップ|杯面|豚骨",
     ),
     ("豚骨味袋装拉面", r"豚骨.*(?:拉面|ラーメン|麺)|とんこつらーめん", r"カップ|杯面"),
-    ("奶油炖菜块", r"奶油炖菜块|とろけるシチュークリーム|シチューミクス.*クリーム", ""),
+    (
+        "奶油炖菜块",
+        r"奶油炖菜块|とろけるシチュークリーム|シチューミクス.*クリーム|北海道シチュー クリーム",
+        "",
+    ),
+    ("牛肉炖菜块", r"牛肉炖菜块|シチューミクス.*ビーフ|北海道シチュー ビーフ", ""),
     ("可乐饼", r"コロッケ|可乐饼", ""),
     ("鱼肉香肠", r"魚肉ソーセージ|鱼肉香肠", ""),
     (
@@ -66,7 +103,9 @@ FAMILIES = (
     ("双层卷筒卫生纸", r"(?:トイレット|トイレロール).*ダブル|双层.*卫生纸", ""),
     ("单层卷筒卫生纸", r"(?:トイレット|トイレロール).*シングル|单层.*卫生纸", ""),
 )
-FRESH_FAMILIES = frozenset(label for label, _, _ in FAMILIES[:24]) - {"牛奶", "鸡蛋"}
+FRESH_FAMILIES = (
+    frozenset(label for label, _, _ in FAMILIES[:25]) - {"牛奶", "鸡蛋"}
+) | {"猪后腿薄片", "猪后腿肉块"}
 PREPARED = re.compile(
     r"味付|調味|已调味|腌|便当|弁当|唐揚|炸|串|ソース|沙拉|サラダ|スープ|汤底"
 )
@@ -74,7 +113,9 @@ METRIC = re.compile(
     r"(?<![\d./])(\d+(?:\.\d+)?)\s*(kg|ml|g|l)(?![a-z])(?:\s*[×x]\s*(\d+))?",
     re.IGNORECASE,
 )
-COUNT = re.compile(r"(?<![\d./])(\d+)\s*(個|个|コ|本|株|袋|ロール|食|切|枚)(?:入)?\)?$")
+COUNT = re.compile(
+    r"(?<![\d./])(\d+)\s*(個|个|コ|本|株|袋|パック|ロール|食|切|枚)(?:入)?\)?$"
+)
 
 
 @dataclass(frozen=True)
@@ -89,8 +130,6 @@ class Comparison:
 def comparable(item: Item, offer: Offer) -> Comparison | None:
     if offer.taxed is None:
         return None
-    if item.jan and item.jan_url:
-        return Comparison(item, offer, item.name, "同条码每份", offer.taxed)
     if not item.spec:
         return None
     name = f"{item.name} {chinese_product(item.name)}"
@@ -129,7 +168,7 @@ def comparable(item: Item, offer: Offer) -> Comparison | None:
         return Comparison(item, offer, category, "每100克", offer.taxed * 100 / amount)
     count = COUNT.search(spec) if not measures else None
     if count and int(count[1]) > 0:
-        if count[2] == "袋" and category in (
+        if count[2] in ("袋", "パック") and category in (
             "菠菜",
             "金针菇",
             "蟹味菇",
@@ -138,10 +177,10 @@ def comparable(item: Item, offer: Offer) -> Comparison | None:
             "土豆",
             "洋葱",
             "薯片",
+            "舞茸",
         ):
-            return Comparison(
-                item, offer, category, "每袋（重量未标）", offer.taxed / int(count[1])
-            )
+            unit = "每袋（重量未标）" if count[2] == "袋" else "每盒（重量未标）"
+            return Comparison(item, offer, category, unit, offer.taxed / int(count[1]))
         unit = {
             "個": "每件",
             "个": "每件",
@@ -167,14 +206,18 @@ def compare_deals(deals, store_ids):
             continue
         covered += 1
         result = comparable(item, offer)
-        if result is None:
-            continue
-        identity = item.jan if result.unit == "同条码每份" else ""
-        category = item.jan if identity else result.category
-        matches = groups.setdefault((category, result.unit, identity), {})
-        existing = matches.get(store_id)
-        if existing is None or result.unit_price < existing.unit_price:
-            matches[store_id] = result
+        matches_to_add = [result] if result is not None else []
+        if item.jan and item.jan_url and offer.taxed is not None:
+            matches_to_add.append(
+                Comparison(item, offer, item.name, "同条码每份", offer.taxed)
+            )
+        for match in matches_to_add:
+            identity = item.jan if match.unit == "同条码每份" else ""
+            category = identity or match.category
+            matches = groups.setdefault((category, match.unit, identity), {})
+            existing = matches.get(store_id)
+            if existing is None or match.unit_price < existing.unit_price:
+                matches[store_id] = match
     return covered, {
         (
             next(iter(values.values())).category if identity else category,
