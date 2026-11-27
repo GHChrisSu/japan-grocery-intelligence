@@ -69,7 +69,12 @@ def discover():
 
 
 @app.command()
-def nearby(latitude: float, longitude: float, output: Path, radius: int = 1500):
+def nearby(
+    latitude: float,
+    longitude: float,
+    output: Annotated[Path, typer.Option("--output")],
+    radius: int = 1500,
+):
     """Write disabled OpenStreetMap store candidates to a new YAML file."""
     if output.exists():
         raise typer.BadParameter("Choose a new output path")
@@ -121,7 +126,9 @@ def crawl(
 
 
 @app.command()
-def analyze(path: Path, store: StoreOpt, output: Path):
+def analyze(
+    path: Path, store: StoreOpt, output: Annotated[Path, typer.Option("--output")]
+):
     """Send a local flyer image to your configured model and write a review draft."""
     source = store_by_id(store)
     if output.exists():
