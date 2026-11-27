@@ -1,0 +1,18 @@
+- id: your-store
+  chain: Example Grocer
+  store_name: Example Grocer
+  url: https://example.com/offers
+  robots_url: https://example.com/robots.txt
+  source_type: html
+  access_status: unverified
+  enabled: false
+  latitude: 35.6812
+  longitude: 139.7671
+  parser: css
+  selectors:
+    row: .offer
+    name: .product-name
+    including: .price-tax-included
+    spec: .size
+    channel: physical_store
+    price_type: promotion
